@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BaggageBarGraph from './BaggageBarGraph';
 import LostBaggageCount from './LostBaggageCount';
 import AnticipatedBagWeightGraph from './AnticipatedBagWeightGraph';
@@ -9,6 +9,8 @@ import AverageTimeToLoadABag from "./AverageTimeToLoadABag";
 import flightsData from '../assets/flights.json';
 
 const Dashboard = ({ uploadedImage, onImageUpload }) => {
+    const dashboardRef = useRef(null); // Reference to the dashboard container
+
     const [flightFilter, setFlightFilter] = useState("");
     const [selectedLeg, setSelectedLeg] = useState(null);
     const [flightLegs, setFlightLegs] = useState([]);
@@ -68,15 +70,27 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
     const [initialButtons, setInitialButtons] = useState([]);
 
     for (let i=0; i < 30; i++) {
-        const initButton = {
-            image: `images/default-luggage.jpg`,
-            name: generateRandomName(),
-            flightNumber: "WN435",
-            route: "DAL - PHX",
-            zone: Math.floor(Math.random() * 4),
-            bagTag: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
-        };
-        initialButtons.push(initButton);
+        if (i === 5) {
+            const initButton = {
+                image: `images/default-luggage.jpg`,
+                name: "Taylor Wilson",
+                flightNumber: "WN435",
+                route: "DAL - PHX",
+                zone: 2,
+                bagTag: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
+            };
+            initialButtons.push(initButton);
+        } else {
+            const initButton = {
+                image: `images/default-luggage.jpg`,
+                name: generateRandomName(),
+                flightNumber: "WN435",
+                route: "DAL - PHX",
+                zone: Math.floor(Math.random() * 4),
+                bagTag: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
+            };
+            initialButtons.push(initButton);
+        }
     }
 
     const [buttons, setButtons] = useState(initialButtons);
@@ -175,7 +189,7 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
         if (uploadedImage === "white-luggage-belt.jpg") {
             // update text details to show green
             fetch(
-              `https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/search-by-bag-tag?bagTag=${inputText}`
+              `https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/search-by-bag-tag?bagTag=12345`
             )
               .then((response) => response.json())
               .then((data) => {
@@ -189,8 +203,18 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
               });
             setLuggageImage("images/white-luggage.jpg");
             setTextDetailsBackground("#ccffd8");
-            const randomIndex = Math.floor(Math.random() * 15);
-            setSelectedButtonIndex(randomIndex);
+            setSelectedButtonIndex(5);
+
+            // populate text details
+            const goodLuggage = {
+                image: `images/default-luggage.jpg`,
+                name: "Taylor Wilson",
+                flightNumber: "WN435",
+                route: "DAL - PHX",
+                zone: 2,
+                bagTag: 7547362402
+            };
+            setSelectedPassenger(goodLuggage);
         } else if (uploadedImage === "black-luggage-belt.jpg") {
             // update text details to show red
             setLuggageImage("images/black-luggage.jpg");
@@ -261,7 +285,7 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                 </div>
             </div> */}
             {showDashboard && baggageInfo && (
-                <div className="container">
+                <div className="container" ref={dashboardRef}>
                     <div className={`left-column ${!showDetails ? "full-width" : ""}`}>
                         <button key="button-label" className="title-button">
                             <span className="button-aligned-name">Passenger Name</span>
@@ -293,9 +317,9 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                                 <div>{selectedPassenger ? selectedPassenger.name : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
-                                <div className='text-details-status'>ZONE 1</div>
-                                <div>
-                                    {/* <div className='text-details-status'>Enter Bag Number or Picture of Bag</div> */}
+                                <div className='text-details-status'>ZONE {selectedPassenger ? selectedPassenger.zone : ""}</div>
+                                {/* <div>
+                                    <div className='text-details-status'>Enter Bag Number or Picture of Bag</div>
                                     <input
                                         type="text"
                                         value={inputText}
@@ -303,7 +327,7 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                                         placeholder="Enter bag number..."
                                     />
                                     <button onClick={handleButtonClick}>Submit</button>
-                                </div>
+                                </div> */}
                                 {/* <div>
                                     <button onClick={handleFindBagClick}>Attach Picture</button>
                                     <input type="file" accept="image/*" id="hidden-file-input" style={{display: 'none'}} onChange={handleFileChange} />
