@@ -13,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  border-top: 1px dashed black;
 }
 
 .left-column.full-width {
@@ -33,6 +34,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #FFFFFF;
+  border-top: 1px dashed black;
 }
 
 .image-container {
@@ -76,8 +78,8 @@ body {
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
-  background-color: #304cb2;
-  color: white;
+  background-color: lightgray;
+  color: black;
 }
 
 .info-button {

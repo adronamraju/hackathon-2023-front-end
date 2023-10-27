@@ -48,6 +48,7 @@ const Dashboard = () => {
 
     const [buttons, setButtons] = useState(initialButtons);
     const [showDetails, setShowDetails] = useState(false);
+    const [showDashboard, setShowDashboard] = useState(false);
     const [selectedPassenger, setSelectedPassenger] = useState(null);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
 
@@ -55,6 +56,19 @@ const Dashboard = () => {
         setShowDetails(true);
         setSelectedPassenger(button);
         setSelectedButtonIndex(index);
+    };
+
+    const handleSelectedLeg = (leg) => {
+        setSelectedLeg(leg);
+        setShowDashboard(true);
+    };
+
+    const handleSetFlightFilter = (value) => {
+        setFlightFilter(value)
+        setShowDashboard(false);
+        setSelectedButtonIndex(null);
+        setSelectedPassenger(null);
+        setShowDetails(false);
     };
 
     useEffect(() => {
@@ -105,7 +119,7 @@ const Dashboard = () => {
                 <label>Flight Number:</label>
                 <input
                     value={flightFilter}
-                    onChange={e => setFlightFilter(e.target.value)}
+                    onChange={e => handleSetFlightFilter(e.target.value)}
                 />
             </div>
 
@@ -117,7 +131,7 @@ const Dashboard = () => {
                         // Removed the inline comment from here
                         <button
                             key={leg}
-                            onClick={() => setSelectedLeg(leg)}
+                            onClick={() => handleSelectedLeg(leg)}
                             className={selectedLeg === leg ? 'selected' : ''}
                         >
                             {leg}
@@ -148,42 +162,44 @@ const Dashboard = () => {
                     <AverageTimeToLoadABag data={timeToLoad} />
                 </div>
             </div> */}
-            <div className="container">
-                <div className={`left-column ${!showDetails ? "full-width" : ""}`}>
-                    <button key="button-label" className="title-button">
-                        <span className="button-aligned-name">Passenger Name</span>
-                        <span className="button-aligned-note">Note</span>
-                        <span className="button-aligned-flight">Flight#</span>
-                        <span className="button-aligned-route">Route</span>
-                    </button>
-                    {buttons.map((button, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleDetailsToggle(button, index)}
-                            className={`info-button ${selectedButtonIndex === index ? 'highlighted' : ''}`}
-                        >
-                            <span className="button-aligned-name">{button.name}</span>
-                            <span className="button-aligned-note">{button.status}</span>
-                            <span className="button-aligned-flight">{button.flightNumber}</span>
-                            <span className="button-aligned-route">{button.route}</span>
+            {showDashboard && (
+                <div className="container">
+                    <div className={`left-column ${!showDetails ? "full-width" : ""}`}>
+                        <button key="button-label" className="title-button">
+                            <span className="button-aligned-name">Passenger Name</span>
+                            <span className="button-aligned-note">Note</span>
+                            <span className="button-aligned-flight">Flight#</span>
+                            <span className="button-aligned-route">Route</span>
                         </button>
-                    ))}
-                </div>
-                {showDetails && (
-                    <div className="right-column">
-                        <div className="image-container">
-                            <img src="images/sample.png" alt="Sample" />
-                        </div>
-                        <div className="text-details">
-                            <div>{selectedPassenger ? selectedPassenger.name : ""}</div>
-                            <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
-                            <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
-                            <br></br>
-                            <div className='text-details-status'>ZONE 1</div>
-                        </div>
+                        {buttons.map((button, index) => (
+                            <button
+                                key={index}
+                                onClick={() => handleDetailsToggle(button, index)}
+                                className={`info-button ${selectedButtonIndex === index ? 'highlighted' : ''}`}
+                            >
+                                <span className="button-aligned-name">{button.name}</span>
+                                <span className="button-aligned-note">{button.status}</span>
+                                <span className="button-aligned-flight">{button.flightNumber}</span>
+                                <span className="button-aligned-route">{button.route}</span>
+                            </button>
+                        ))}
                     </div>
-                )}
-            </div>
+                    {showDetails && (
+                        <div className="right-column">
+                            <div className="image-container">
+                                <img src="images/sample.png" alt="Sample" />
+                            </div>
+                            <div className="text-details">
+                                <div>{selectedPassenger ? selectedPassenger.name : ""}</div>
+                                <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
+                                <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
+                                <br></br>
+                                <div className='text-details-status'>ZONE 1</div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
