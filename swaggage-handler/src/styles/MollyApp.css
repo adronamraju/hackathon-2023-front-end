@@ -4,7 +4,7 @@ body {
 
 .container {
   display: flex;
-  height: 100vh;
+  height: 73vh;
 }
 
 .left-column {
@@ -14,6 +14,7 @@ body {
   flex-direction: column;
   overflow-y: auto;
   border-top: 1px dashed black;
+  height: 73vh;
 }
 
 .left-column.full-width {
@@ -35,6 +36,7 @@ body {
   flex-direction: column;
   background-color: #FFFFFF;
   border-top: 1px dashed black;
+  height: 73vh;
 }
 
 .image-container {
@@ -62,10 +64,11 @@ body {
   color: white;
   background-color: #304cb2;
   font-size: 48px;
+  height: 20vh;
 }
 
 .text-details-status {
-  font-size: 84px;
+  font-size: 20px;
   font-weight: bold;
 }
 

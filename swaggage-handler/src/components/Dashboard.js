@@ -193,7 +193,6 @@ const Dashboard = () => {
                                 <div>{selectedPassenger ? selectedPassenger.name : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
-                                <br></br>
                                 <div className='text-details-status'>ZONE 1</div>
                             </div>
                         </div>
