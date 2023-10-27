@@ -8,7 +8,7 @@ import '../styles/MollyApp.css';
 import AverageTimeToLoadABag from "./AverageTimeToLoadABag";
 import flightsData from '../assets/flights.json';
 
-const Dashboard = () => {
+const Dashboard = ({ uploadedImage }) => {
     const [flightFilter, setFlightFilter] = useState("");
     const [selectedLeg, setSelectedLeg] = useState(null);
     const [flightLegs, setFlightLegs] = useState([]);
@@ -41,7 +41,7 @@ const Dashboard = () => {
             name: generateRandomName(),
             status: isTransfer ? "Transfer" : "",
             flightNumber: "WN435",
-            route: isTransfer ? "DAL - PHX - SFO" : "DAL - PHX"
+            route: "DAL - PHX"
         };
         initialButtons.push(initButton);
     }
@@ -111,6 +111,14 @@ const Dashboard = () => {
         ]);
     }, [flightFilter]);
 
+    // Effect to change the background color of a random button when image is uploaded
+    useEffect(() => {
+        if (uploadedImage) {
+            // TODO api call to get matching passenger bag
+            const randomIndex = Math.floor(Math.random() * 15);
+            setSelectedButtonIndex(randomIndex);
+        }
+    }, [uploadedImage]); // Dependency on the image prop
 
     return (
         <div className="dashboard">
