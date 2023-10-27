@@ -8,7 +8,7 @@ import '../styles/MollyApp.css';
 import AverageTimeToLoadABag from "./AverageTimeToLoadABag";
 import flightsData from '../assets/flights.json';
 
-const Dashboard = ({ uploadedImage }) => {
+const Dashboard = ({ uploadedImage, onImageUpload }) => {
     const [flightFilter, setFlightFilter] = useState("");
     const [selectedLeg, setSelectedLeg] = useState(null);
     const [flightLegs, setFlightLegs] = useState([]);
@@ -19,6 +19,18 @@ const Dashboard = ({ uploadedImage }) => {
     const [anticipatedWeightData, setAnticipatedWeightData] = useState([]);
     const [delayStations, setDelayStations] = useState([]);
     const [timeToLoad, setTimeToLoad] = useState([]);
+
+    const [baggageInfo, setBaggageInfo] = useState([]);
+
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            onImageUpload(e.target.files[0]);
+        }
+    };
+
+    const handleFindBagClick = () => {
+        document.getElementById('hidden-file-input').click();
+    };
 
     const firstNames = ["Ava", "Liam", "Zara", "Ethan", "Isabella", "Juan", "Sophia", "Oliver", "Mia", "Hiroshi", "Emily", "Santiago", "Aria", "Noah", "Chloe", "Raj", "Grace", "Mohammed", "Emma", "Alexander", "Luna", "Yuki", "Charlotte", "Finn", "Ivy"];
     const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris"];
@@ -32,6 +44,28 @@ const Dashboard = ({ uploadedImage }) => {
         const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
         return `${randomFirstName} ${randomLastName}`;
     };
+
+    const [inputText, setInputText] = useState('');
+
+    const handleInputChange = (event) => {
+        setInputText(event.target.value);
+    };
+
+
+    const [apiResponse, setApiResponse] = useState(null);
+
+    const handleButtonClick = () => {
+        fetch(`https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/search-by-bag-tag?bagTag=${inputText}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setApiResponse(data);
+            // Handle the API response here
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+      };
 
     const today = new Date().toLocaleDateString();
     const initialButtons = [];
@@ -61,6 +95,17 @@ const Dashboard = ({ uploadedImage }) => {
     const handleSelectedLeg = (leg) => {
         setSelectedLeg(leg);
         setShowDashboard(true);
+            // Make the API call when the component mounts
+            fetch('https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/flight-pax-bags-info')
+              .then(response => response.json())
+              .then(data => {
+                // Handle the API response data here
+                setBaggageInfo(data);
+                console.log(data);
+              })
+              .catch(error => {
+                console.error('Error fetching data:', error);
+              });
     };
 
     const handleSetFlightFilter = (value) => {
@@ -202,6 +247,20 @@ const Dashboard = ({ uploadedImage }) => {
                                 <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
                                 <div className='text-details-status'>ZONE 1</div>
+                                <div>
+                                    <div className='text-details-status'>Enter Bag Number or Picture of Bag</div>
+                                    <input
+                                        type="text"
+                                        value={inputText}
+                                        onChange={handleInputChange}
+                                        placeholder="Enter text..."
+                                    />
+                                    <button onClick={handleButtonClick}>Submit</button>
+                                </div>
+                                <div>
+                                    <button onClick={handleFindBagClick}>Attach Picture</button>
+                                    <input type="file" accept="image/*" id="hidden-file-input" style={{display: 'none'}} onChange={handleFileChange} />
+                                </div>
                             </div>
                         </div>
                     )}

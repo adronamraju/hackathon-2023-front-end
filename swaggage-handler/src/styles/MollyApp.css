@@ -70,6 +70,7 @@ body {
 .text-details-status {
   font-size: 20px;
   font-weight: bold;
+  height: 2vh;
 }
 
 .title-button {
