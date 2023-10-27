@@ -8,7 +8,7 @@ function App() {
     const [image, setImage] = useState(null);
 
     const handleImageUpload = (uploadedImage) => {
-        setImage(URL.createObjectURL(uploadedImage));
+        setImage(uploadedImage.name);
     };
 
     return (

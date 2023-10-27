@@ -4,7 +4,7 @@ body {
 
 .container {
   display: flex;
-  height: 79vh;
+  height: 77vh;
 }
 
 .left-column {
@@ -14,7 +14,7 @@ body {
   flex-direction: column;
   overflow-y: auto;
   border-top: 1px dashed black;
-  height: 79vh;
+  height: 77vh;
 }
 
 .left-column.full-width {
@@ -34,9 +34,9 @@ body {
   flex: 0 0 50%;
   display: flex;
   flex-direction: column;
-  background-color: #f9d06f;
+  background-color: white; /* #f9d06f */
   border-top: 1px dashed black;
-  height: 79vh;
+  height: 77vh;
 }
 
 .image-container {
@@ -62,8 +62,8 @@ body {
   align-items: center; /* Horizontally center the content */
   flex: 1; /* Takes half of the available space */
   gap: 5px;
-  color: white;
-  background-color: #304cb2;
+  color: black;
+  background-color: #ffd7d5; /* red #ffd7d5 green #ccffd8 */
   font-size: 48px;
   height: 20vh;
   border-radius: 10px;
@@ -101,7 +101,7 @@ body {
 }
 
 .info-button.highlighted {
-  background-color: #ffbf27; /* or any highlight color you prefer */
+  background-color: #304cb2; /* or any highlight color you prefer */
   color: white;
 }
 

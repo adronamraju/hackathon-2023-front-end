@@ -18,7 +18,8 @@ const Menu = ({ onImageUpload }) => {
                 <li>Home</li>
                 <li>About</li>
                 <li>Contact</li>
-                <li onClick={handleFindBagClick}>Find Bag</li>
+                <li>Find Bag</li>
+                <li onClick={handleFindBagClick}>Upload Image</li>
             </ul>
             <input type="file" accept="image/*" id="hidden-file-input" style={{display: 'none'}} onChange={handleFileChange} />
         </div>

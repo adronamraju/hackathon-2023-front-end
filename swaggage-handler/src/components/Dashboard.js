@@ -69,6 +69,7 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
 
     for (let i=0; i < 30; i++) {
         const initButton = {
+            image: `images/default-luggage.jpg`,
             name: generateRandomName(),
             flightNumber: "WN435",
             route: "DAL - PHX",
@@ -83,11 +84,17 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
     const [showDashboard, setShowDashboard] = useState(false);
     const [selectedPassenger, setSelectedPassenger] = useState(null);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+    const [luggageImage, setLuggageImage] = useState("images/default-luggage.jpg");
+    const [textDetailsBackground, setTextDetailsBackground] = useState("#ccffd8");
 
     const handleDetailsToggle = (button, index) => {
         setShowDetails(true);
         setSelectedPassenger(button);
         setSelectedButtonIndex(index);
+
+        // TODO randomize luggage{i}.jpg
+        setLuggageImage("images/default-luggage.jpg");
+        setTextDetailsBackground("#ccffd8");
     };
 
     const handleSelectedLeg = (leg) => {
@@ -165,11 +172,42 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
 
     // Effect to change the background color of a random button when image is uploaded
     useEffect(() => {
-        if (uploadedImage) {
-            // TODO api call to get matching passenger bag
+        if (uploadedImage === "white-luggage-belt.jpg") {
+            // update text details to show green
+            fetch(
+              `https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/search-by-bag-tag?bagTag=${inputText}`
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                // setApiResponse(data);
+                // Handle the API response here
+                console.log(data);
+                // setInitialButtons(data);
+              })
+              .catch((error) => {
+                console.error("Error fetching data:", error);
+              });
+            setLuggageImage("images/white-luggage.jpg");
+            setTextDetailsBackground("#ccffd8");
             const randomIndex = Math.floor(Math.random() * 15);
             setSelectedButtonIndex(randomIndex);
+        } else if (uploadedImage === "black-luggage-belt.jpg") {
+            // update text details to show red
+            setLuggageImage("images/black-luggage.jpg");
+            setTextDetailsBackground("#ffd7d5");
+            setSelectedButtonIndex(null);
+
+            const badLuggage = {
+                image: `images/black-luggage.jpg`,
+                name: generateRandomName(),
+                flightNumber: "WN1680",
+                route: "DAL - AUS",
+                zone: Math.floor(Math.random() * 4),
+                bagTag: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
+            };
+            setSelectedPassenger(badLuggage);
         }
+        setShowDetails(true);
     }, [uploadedImage]); // Dependency on the image prop
 
     return (
@@ -249,27 +287,27 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                     {showDetails && (
                         <div className="right-column">
                             <div className="image-container">
-                                <img src="images/sample.png" alt="Sample" />
+                                <img src={`${luggageImage}`} alt="Sample" />
                             </div>
-                            <div className="text-details">
+                            <div className="text-details" style={{backgroundColor: `${textDetailsBackground}`}}>
                                 <div>{selectedPassenger ? selectedPassenger.name : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.flightNumber : ""}</div>
                                 <div>{selectedPassenger ? selectedPassenger.route : ""}</div>
                                 <div className='text-details-status'>ZONE 1</div>
                                 <div>
-                                    <div className='text-details-status'>Enter Bag Number or Picture of Bag</div>
+                                    {/* <div className='text-details-status'>Enter Bag Number or Picture of Bag</div> */}
                                     <input
                                         type="text"
                                         value={inputText}
                                         onChange={handleInputChange}
-                                        placeholder="Enter text..."
+                                        placeholder="Enter bag number..."
                                     />
                                     <button onClick={handleButtonClick}>Submit</button>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <button onClick={handleFindBagClick}>Attach Picture</button>
                                     <input type="file" accept="image/*" id="hidden-file-input" style={{display: 'none'}} onChange={handleFileChange} />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     )}
