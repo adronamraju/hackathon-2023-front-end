@@ -34,7 +34,7 @@ body {
   flex: 0 0 50%;
   display: flex;
   flex-direction: column;
-  background-color: #FFFFFF;
+  background-color: #f9d06f;
   border-top: 1px dashed black;
   height: 79vh;
 }
@@ -51,6 +51,7 @@ body {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  border-radius: 10px;
 }
 
 .text-details {
@@ -65,6 +66,7 @@ body {
   background-color: #304cb2;
   font-size: 48px;
   height: 20vh;
+  border-radius: 10px;
 }
 
 .text-details-status {
@@ -104,29 +106,36 @@ body {
 }
 
 .button-aligned-name {
-  flex: 0 0 24%;
+  flex: 0 0 25%;
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 1%;
+}
+
+.button-aligned-bag {
+  flex: 0 0 20%;
   flex-grow: 1;
   text-align: left;
   padding-left: 1%;
 }
 
 .button-aligned-note {
-  flex: 0 0 20%;
+  flex: 0 0 10%;
   flex-grow: 1;
   text-align: center;
   font-weight: bold;
 }
 
 .button-aligned-flight {
-  flex: 0 0 15%;
+  flex: 0 0 10%;
   flex-grow: 1;
   text-align: left;
-  padding-left: 15%;
+  padding-left: 1%;
 }
 
 .button-aligned-route {
-  flex: 0 0 24%;
+  flex: 0 0 20%;
   flex-grow: 1;
   text-align: right;
-  padding-right: 1%;
+  padding-right: 10%;
 }

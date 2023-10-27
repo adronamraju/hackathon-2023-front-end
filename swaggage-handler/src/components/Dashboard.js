@@ -34,10 +34,6 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
 
     const firstNames = ["Ava", "Liam", "Zara", "Ethan", "Isabella", "Juan", "Sophia", "Oliver", "Mia", "Hiroshi", "Emily", "Santiago", "Aria", "Noah", "Chloe", "Raj", "Grace", "Mohammed", "Emma", "Alexander", "Luna", "Yuki", "Charlotte", "Finn", "Ivy"];
     const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris"];
-    const isTransferFlight = () => {
-    const randomNumber = Math.random();
-        return (randomNumber < 0.1) ? true : false;
-    };
 
     const generateRandomName = () => {
         const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
@@ -61,6 +57,7 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
             setApiResponse(data);
             // Handle the API response here
             console.log(data);
+            setInitialButtons(data);
           })
           .catch((error) => {
             console.error('Error fetching data:', error);
@@ -68,14 +65,15 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
       };
 
     const today = new Date().toLocaleDateString();
-    const initialButtons = [];
+    const [initialButtons, setInitialButtons] = useState([]);
+
     for (let i=0; i < 30; i++) {
-        const isTransfer = isTransferFlight();
         const initButton = {
             name: generateRandomName(),
-            status: isTransfer ? "Transfer" : "",
             flightNumber: "WN435",
-            route: "DAL - PHX"
+            route: "DAL - PHX",
+            zone: Math.floor(Math.random() * 4),
+            bagTag: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
         };
         initialButtons.push(initButton);
     }
@@ -96,16 +94,25 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
         setSelectedLeg(leg);
         setShowDashboard(true);
             // Make the API call when the component mounts
-            fetch('https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/flight-pax-bags-info')
-              .then(response => response.json())
-              .then(data => {
-                // Handle the API response data here
-                setBaggageInfo(data);
-                console.log(data);
-              })
-              .catch(error => {
-                console.error('Error fetching data:', error);
-              });
+        fetch('https://nxyciq4wr2.execute-api.us-east-1.amazonaws.com/v1/flight-pax-bags-info')
+            .then(response => response.json())
+            .then(data => {
+            // Handle the API response data here
+            setBaggageInfo(data);
+            setApiResponse(data);
+            console.log(data);
+            })
+            .catch(error => {
+            console.error('Error fetching data:', error);
+            });
+            // for (let i=0; i < 30; i++) {
+            //     //initialButtons.at(i).name = apiResponse[i].passenger_name;
+            //     initialButtons.at(i).flightNumber = [0][0].passenger_name;
+            //     initialButtons.at(i).route = "DAL - PHXs";
+            //     initialButtons.at(i).zone = "12";
+            //     initialButtons.at(i).bagTag = "7123456";
+            // }
+        
     };
 
     const handleSetFlightFilter = (value) => {
@@ -215,14 +222,15 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                     <AverageTimeToLoadABag data={timeToLoad} />
                 </div>
             </div> */}
-            {showDashboard && (
+            {showDashboard && baggageInfo && (
                 <div className="container">
                     <div className={`left-column ${!showDetails ? "full-width" : ""}`}>
                         <button key="button-label" className="title-button">
                             <span className="button-aligned-name">Passenger Name</span>
-                            <span className="button-aligned-note">Note</span>
                             <span className="button-aligned-flight">Flight#</span>
                             <span className="button-aligned-route">Route</span>
+                            <span className="button-aligned-note">Zone</span>
+                            <span className="button-aligned-bag">Bag#</span>
                         </button>
                         {buttons.map((button, index) => (
                             <button
@@ -231,9 +239,10 @@ const Dashboard = ({ uploadedImage, onImageUpload }) => {
                                 className={`info-button ${selectedButtonIndex === index ? 'highlighted' : ''}`}
                             >
                                 <span className="button-aligned-name">{button.name}</span>
-                                <span className="button-aligned-note">{button.status}</span>
                                 <span className="button-aligned-flight">{button.flightNumber}</span>
                                 <span className="button-aligned-route">{button.route}</span>
+                                <span className="button-aligned-note">{button.zone}</span>
+                                <span className="button-aligned-bag">{button.bagTag}</span>
                             </button>
                         ))}
                     </div>
