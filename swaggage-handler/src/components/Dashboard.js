@@ -40,7 +40,7 @@ const Dashboard = () => {
         const initButton = {
             name: generateRandomName(),
             status: isTransfer ? "Transfer" : "",
-            flightNumber: isTransfer ? "WN1508" : "WN225",
+            flightNumber: "WN435",
             route: isTransfer ? "DAL - PHX - SFO" : "DAL - PHX"
         };
         initialButtons.push(initButton);
