@@ -20,8 +20,8 @@ const Dashboard = () => {
     const [delayStations, setDelayStations] = useState([]);
     const [timeToLoad, setTimeToLoad] = useState([]);
 
-    const firstNames = ["John", "Jane", "Bob", "Alice", "Michael", "Sarah", "David", "Emma"];
-    const lastNames = ["Smith", "Johnson", "Brown", "Williams", "Jones", "Miller", "Wilson", "Davis"];
+    const firstNames = ["Ava", "Liam", "Zara", "Ethan", "Isabella", "Juan", "Sophia", "Oliver", "Mia", "Hiroshi", "Emily", "Santiago", "Aria", "Noah", "Chloe", "Raj", "Grace", "Mohammed", "Emma", "Alexander", "Luna", "Yuki", "Charlotte", "Finn", "Ivy"];
+    const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris"];
     const isTransferFlight = () => {
     const randomNumber = Math.random();
         return (randomNumber < 0.1) ? true : false;
