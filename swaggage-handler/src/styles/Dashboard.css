@@ -1,0 +1,121 @@
+/* Dashboard.css */
+
+.dashboard {
+    padding: 0px;
+}
+
+.filter {
+    margin-bottom: 20px;
+}
+
+.filter label {
+    font-weight: 700;
+    font-size: .875rem;
+    color: #636363;
+    box-sizing: border-box;
+    outline: 0 transparent;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    display: inline-block;  /* ensures the label appears to the left of the input */
+    vertical-align: middle; /* aligns the label vertically with the input */
+    margin-right: 10px;     /* some spacing between the label and the input */
+}
+
+.filter input {
+    background-color: #fff;
+    border: 1px solid #636363;
+    border-radius: 0;
+    color: #0c132d;
+    height: 2rem;
+    padding: 0.35rem 0.5rem;
+    width: 10em;             /* adjusts the width to fit roughly 8 characters */
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    display: inline-block;  /* ensures the input appears inline */
+    vertical-align: middle; /* aligns the input vertically with the label */
+}
+
+.flight-legs {
+    margin-bottom: 20px;
+}
+
+.flight-legs button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.flight-legs button:hover {
+    background-color: #304cb2;
+    color: white;
+}
+
+.flight-legs .selected {
+    background-color: #304cb2;
+    color: white;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* This will make it 2 cards per row */
+    gap: 20px;  /* Adjust as needed for spacing between cards */
+}
+
+.dashboard-card {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* If you need to set a specific width/height */
+    /* width: calc(50% - 20px); */
+}
+
+
+.dashboard-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h3 {
+    border-bottom: 2px solid #304cb2;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+/* Bar Graph Styling */
+.baggage-bar-graph {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Lost Baggage Count Styling */
+.lost-baggage-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d32f2f;
+    text-align: center;
+}
+
+/* Anticipated Bag Weight Styling */
+.anticipated-weight-graph {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Stations with Probability of Baggage Delay Styling */
+.probable-delay-stations ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.probable-delay-stations li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.probable-delay-stations li:last-child {
+    border-bottom: none;
+}
+
+
